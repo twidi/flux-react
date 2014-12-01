@@ -7,7 +7,6 @@
  */
 
 var EventEmitter = require('eventemitter2').EventEmitter2 || require('eventemitter2');
-var safeDeepClone = require('./safeDeepClone.js');
 
 var createActionFunction = function (actionName) {
 
@@ -15,7 +14,7 @@ var createActionFunction = function (actionName) {
   var fn = function () {
 
     // Grab all the arguments and convert to array
-    var args = safeDeepClone('[Circular]', [], Array.prototype.slice.call(arguments, 0));
+    var args = Array.prototype.slice.call(arguments, 0);
 
     if (!fn._events) {
       throw new Error('You are triggering the action: ' + fn.handlerName + ', and nobody is listening to it yet. Remember to load up the store first');

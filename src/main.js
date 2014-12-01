@@ -1,7 +1,6 @@
 var React = global.React || require('react');
 var action = require('./action.js');
 var EventEmitter = require('eventemitter2').EventEmitter2 || require('eventemitter2');
-var safeDeepClone = require('./safeDeepClone.js');
 var RenderMixin = require('./RenderMixin.js');
 
 var flux = {};
@@ -78,9 +77,13 @@ function mergeStore (mixins, source) {
 
   // Register exports
   Object.keys(source.exports).forEach(function (key) {
-    exports[key] = function () {
-      return safeDeepClone('[Circular]', [], source.exports[key].apply(source, arguments));
-    };
+    if (typeof(source.exports[key]) == 'function') {
+      exports[key] = function() {
+        return source.exports[key].apply(source, arguments);
+      };
+    } else {
+      exports[key] = source.exports[key];
+    }
   });
 
   return exports;
