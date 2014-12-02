@@ -78,11 +78,11 @@ function mergeStore (mixins, source) {
   // Register exports
   Object.keys(source.exports).forEach(function (key) {
     if (typeof(source.exports[key]) == 'function') {
-      exports[key] = function() {
+      source[key] = exports[key] = function() {
         return source.exports[key].apply(source, arguments);
       };
     } else {
-      exports[key] = source.exports[key];
+      source[key] = exports[key] = source.exports[key];
     }
   });
 
