@@ -40,7 +40,8 @@ function mergeStore (mixins, source) {
   }
 
   var exports = new EventEmitter({
-    wildcard: true
+    wildcard: true,
+    maxListeners: -1
   });
 
   source.emitChange = function () {
